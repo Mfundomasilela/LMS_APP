@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manager Dashboard</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
+
+        header {
+            background: #1e293b;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #e2e8f0;
+        }
+
+        .approve {
+            background: #16a34a;
+        }
+
+        .reject {
+            background: #dc2626;
+        }
+
+        button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>Manager Dashboard</div>
+    <div>
+        <a th:href="@{/logout}" style="color:#38bdf8;">Logout</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h3>Pending Leave Requests</h3>
+
+        <table>
+            <tr>
+                <th>Employee</th>
+                <th>Type</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Reason</th>
+                <th>Action</th>
+            </tr>
+
+            <tr th:each="r : ${pendingLeaves}">
+                <td th:text="${r.employee.fullName}"></td>
+                <td th:text="${r.leaveType}"></td>
+                <td th:text="${r.startDate}"></td>
+                <td th:text="${r.endDate}"></td>
+                <td th:text="${r.reason}"></td>
+                <td>
+                    <form th:action="@{'/manager/approve/' + ${r.id}}" method="post" style="display:inline;">
+                        <button class="approve">Approve</button>
+                    </form>
+
+                    <form th:action="@{'/manager/reject/' + ${r.id}}" method="post" style="display:inline;">
+                        <button class="reject">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
